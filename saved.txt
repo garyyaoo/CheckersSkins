@@ -1,0 +1,16 @@
+Checkers
+CheckersPiece BLACK 0 1 false
+CheckersPiece BLACK 0 5 false
+CheckersPiece BLACK 0 7 false
+CheckersPiece BLACK 1 0 false
+CheckersPiece WHITE 1 2 true
+CheckersPiece WHITE 2 3 false
+CheckersPiece BLACK 2 7 false
+CheckersPiece BLACK 3 4 false
+CheckersPiece WHITE 4 3 false
+CheckersPiece WHITE 4 5 false
+CheckersPiece WHITE 5 0 false
+CheckersPiece WHITE 6 5 false
+CheckersPiece WHITE 7 0 false
+CheckersPiece WHITE 7 2 false
+CheckersPiece WHITE 7 6 false
