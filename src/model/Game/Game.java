@@ -45,6 +45,7 @@ public abstract class Game {
         isstrictgame = !isstrictgame;
         if (isstrictgame) {
             System.out.println("Now Strict Game");
+            p1turn = !p1turn;
         } else {
             System.out.println("Open Un-Strict Game");
         }
@@ -74,7 +75,9 @@ public abstract class Game {
     }
 
     public void nextturn() {
-        p1turn = !p1turn;
+        if (isstrictgame) {
+            p1turn = !p1turn;
+        }
     }
 
     public boolean isp1turn() {

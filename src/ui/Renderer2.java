@@ -4,8 +4,14 @@ import model.Game.Board;
 import model.Game.Game;
 import model.Piece.Cell;
 import model.Piece.Piece;
+import sun.applet.Main;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,10 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,7 +34,8 @@ public class Renderer2 {
     private final BoardPanel boardPanel;
 
     private Board chessboard;
-    private static String defaultPieceImagesPath = "simple/presidents/";
+    private static String defaultPieceImagesPath = "simple/dogsandcats/";
+    private boolean hassound = true;
 
     private Cell destinationTile;
 
@@ -139,6 +143,7 @@ public class Renderer2 {
                 System.out.println("standard pieces selected");
                 System.out.println("simple is called");
                 defaultPieceImagesPath = "simple/basic/";
+                hassound = false;
                 boardPanel.drawBoard();
             }
         });
@@ -150,6 +155,7 @@ public class Renderer2 {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Cats and dogs selected");
                 defaultPieceImagesPath = "simple/dogsandcats/";
+                hassound = true;
                 boardPanel.drawBoard();
             }
         });
@@ -161,6 +167,7 @@ public class Renderer2 {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("presidents selected");
                 defaultPieceImagesPath = "simple/presidents/";
+                hassound = true;
                 boardPanel.drawBoard();
             }
         });
@@ -172,6 +179,7 @@ public class Renderer2 {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Rick and Morty selected");
                 defaultPieceImagesPath = "simple/rickandmorty/";
+                hassound = true;
                 boardPanel.drawBoard();
             }
         });
@@ -183,6 +191,7 @@ public class Renderer2 {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Poggers selected");
                 defaultPieceImagesPath = "simple/poggers/";
+                hassound = false;
                 boardPanel.drawBoard();
             }
         });
@@ -210,6 +219,20 @@ public class Renderer2 {
 
         return fileMenu;
     }
+
+    static void playSound(String sound) {
+        File s = new File(sound);
+        try {
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(s));
+            clip.start();
+
+            Thread.sleep(clip.getMicrosecondLength()/1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void redraw() {
         boardPanel.drawBoard();
@@ -310,6 +333,11 @@ public class Renderer2 {
                                 if (game.isMoveover()) {
                                     game.specials();
                                     redraw();
+                                    if (hassound && game.getSelected().getColor() == "WHITE") {
+                                        playSound(defaultPieceImagesPath + "WS.wav");
+                                    } else if (hassound) {
+                                        playSound(defaultPieceImagesPath + "BS.wav");
+                                    }
                                     game.nextturn();
                                     game.deSelect();
                                     selected = false;
